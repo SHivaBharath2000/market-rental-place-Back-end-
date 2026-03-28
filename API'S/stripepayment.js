@@ -1,6 +1,8 @@
 import express from "express";
 import Stripe from "stripe";
 import { v4 as uuidv4 } from "uuid";
+import { userModel } from "../Database connection/model.js";
+import { sendUserOrderConfirmation, sendAdminOrderNotification } from "./mailUtils.js";
 
 const stripe = new Stripe("sk_test_51Q2DelFadwIWXwEL9IWiFBmtZsOisVh3HX8MyU0QHfFPlJRGbpu0SANfKMMEDFICwcJNuGzeTVQ5YzsRUuZ2LOql00INm3kThS");
 const stripeRouter = express.Router();
@@ -13,7 +15,7 @@ const convertINRtoUSD = (rupees) => {
 };
 
 stripeRouter.post("/", async (req, res) => {
-    const { token, amount, name, email } = req.body;
+    const { token, amount, name, email, equipmentName, bookingId, fromDate, toDate, noOfdays, equipmentId, userId, userName } = req.body;
     console.log(req.body);
     const transactionKey = uuidv4();
 
@@ -38,6 +40,37 @@ stripeRouter.post("/", async (req, res) => {
             receipt_email: email,
             description: name,
         });
+
+        // Payment successful - send emails
+        if (charge.status === 'succeeded') {
+            // Prepare booking details for email
+            const bookingDetails = {
+                equipmentName: equipmentName || "",
+                bookingId: bookingId || "",
+                fromDate: fromDate || "",
+                toDate: toDate || "",
+                noOfdays: noOfdays || "",
+                totalAmount: amount,
+                equipmentId: equipmentId || "",
+                userId: userId || "",
+                userName: userName || name
+            };
+
+            // Send confirmation email to user
+            await sendUserOrderConfirmation(email, bookingDetails);
+
+            // Fetch admin user details and send notification
+            try {
+                const adminUser = await userModel.findOne({ isAdmin: true });
+                if (adminUser) {
+                    await sendAdminOrderNotification(adminUser.email, bookingDetails, userName || name, email);
+                } else {
+                    console.log("No admin user found in database");
+                }
+            } catch (adminErr) {
+                console.error("Error fetching admin details:", adminErr.message);
+            }
+        }
 
         res.status(200).send({code:1, charge});
     } catch (err) {
