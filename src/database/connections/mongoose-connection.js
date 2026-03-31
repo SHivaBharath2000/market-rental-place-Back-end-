@@ -1,23 +1,24 @@
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
+
 dotenv.config();
 
+const { DB_USER, DB_PASSWORD, DB_CLUSTER, DB_NAME } = process.env;
 
+const cloudUri = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
-const cloudCluster=process.env.DB_CLUSTER ||"localhost:27017";
-const dbName =process.env.DB_NAME||"";
-const dbuserName=process.env.DB_USER || ""
-const dbPassword=process.env.DB_PASSWORD || "";
-const cloudUri=`mongodb+srv://${dbuserName}:${dbPassword}@${cloudCluster}/${dbName}?retryWrites=true&w=majority&appName=Cluster0`
+const mongooseConnect = async () => {
+  try {
+    if (!DB_USER || !DB_PASSWORD) {
+      throw new Error("Missing DB_USER or DB_PASSWORD in .env file");
+    }
 
-const mongooseConnect =async()=>{
-try{
     await mongoose.connect(cloudUri);
-    console.log("Mongoose Connection established")
+    console.log("Mongoose Connection established");
+  } catch (e) {
+    console.log("Mongoose Connection error: " + e.message);
+    process.exit(1);
+  }
+};
 
-}catch(e){
-    console.log("Mongoose Connection error"+e.message);
-    process.exit(1)
-}
-}
 export default mongooseConnect;
