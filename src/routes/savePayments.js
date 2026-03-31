@@ -1,6 +1,6 @@
 import express from "express";
-import { db } from "../Database connection/mongo-connection.js";
-import { paymentsModel } from "../Database connection/model.js";
+import { db } from "../database/connections/mongo-connection.js";
+import { paymentsModel } from "../database/models/model.js";
 
 const savePaymentRouter = express.Router();
 

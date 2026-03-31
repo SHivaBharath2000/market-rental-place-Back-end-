@@ -1,6 +1,6 @@
 import express from "express";
-import { storesModel } from "../Database connection/model.js";
-import { db } from "../Database connection/mongo-connection.js";
+import { storesModel } from "../database/models/model.js";
+import { db } from "../database/connections/mongo-connection.js";
 const addequipRouter=express.Router();
 
 addequipRouter.post("/",async(req,res)=>{

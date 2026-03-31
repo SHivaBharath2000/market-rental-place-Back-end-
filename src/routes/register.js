@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt"; 
-import { userModel } from "../Database connection/model.js";
-import { transporter,mailOptions } from "./mailUtils.js";
+import { userModel } from "../database/models/model.js";
+import { transporter, mailOptions } from "../services/mailUtils.js";
 
 const registerRouter = express.Router();
 

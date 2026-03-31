@@ -1,5 +1,5 @@
 import express from "express";
-import { bookingModel } from "../Database connection/model.js";
+import { bookingModel } from "../database/models/model.js";
 
 
 const getBookingRouter = express.Router();

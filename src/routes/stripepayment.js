@@ -1,8 +1,8 @@
 import express from "express";
 import Stripe from "stripe";
 import { v4 as uuidv4 } from "uuid";
-import { userModel } from "../Database connection/model.js";
-import { sendUserOrderConfirmation, sendAdminOrderNotification } from "./mailUtils.js";
+import { userModel } from "../database/models/model.js";
+import { sendUserOrderConfirmation, sendAdminOrderNotification } from "../services/mailUtils.js";
 
 const stripe = new Stripe("sk_test_51Q2DelFadwIWXwEL9IWiFBmtZsOisVh3HX8MyU0QHfFPlJRGbpu0SANfKMMEDFICwcJNuGzeTVQ5YzsRUuZ2LOql00INm3kThS");
 const stripeRouter = express.Router();

@@ -18,10 +18,10 @@ const connectToDb=async()=>{
     try{
         await client.connect();
         console.log("DB CONNECTED SUCCESSFULLY")
-    }catch(err){
-        console.log(err)
+    }catch(e){
+        console.log("DB CONNECTION ERROR: "+e.message);
         process.exit(1)
     }
 }
-export { db };
-export default connectToDb;
+
+export {connectToDb , db};

@@ -1,7 +1,7 @@
 import express from 'express';
-import { userModel } from '../Database connection/model.js';
+import { userModel } from '../database/models/model.js';
 import bcrypt from 'bcrypt';
-import { db } from '../Database connection/mongo-connection.js';
+import { db } from '../database/connections/mongo-connection.js';
 import jwt from "jsonwebtoken";
 
 const loginRouter=express.Router()
@@ -49,4 +49,3 @@ loginRouter.post("/", async (req, res) => {
   });
   
   export default loginRouter;
-  

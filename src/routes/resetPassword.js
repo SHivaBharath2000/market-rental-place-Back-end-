@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { userModel } from "../Database connection/model.js";
+import { userModel } from "../database/models/model.js";
 import bcrypt from "bcrypt";
 
 const resetPasswordRouter = express.Router();

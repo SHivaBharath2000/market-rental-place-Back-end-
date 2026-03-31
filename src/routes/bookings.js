@@ -1,6 +1,6 @@
 import express from "express";
-import { bookingModel } from "../Database connection/model.js";
-import { db } from "../Database connection/mongo-connection.js";
+import { bookingModel } from "../database/models/model.js";
+import { db } from "../database/connections/mongo-connection.js";
 
 const bookingRouter = express.Router();
 

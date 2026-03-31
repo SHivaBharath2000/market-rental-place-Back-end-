@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from "jsonwebtoken";
-import { userModel } from '../Database connection/model.js';
-import { mailOptions,transporter } from './mailUtils.js';
+import { userModel } from '../database/models/model.js';
+import { mailOptions, transporter } from '../services/mailUtils.js';
 
 const forgotRouter = express.Router();
 
